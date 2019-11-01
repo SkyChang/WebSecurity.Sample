@@ -1,0 +1,35 @@
+﻿@model List<User>
+@{
+    ViewData["Title"] = "SQLInject";
+}
+
+
+@foreach (var item in @Model)
+{
+    @Html.Raw(item.UserId);
+    <br/>
+    @item.Password;
+}
+
+
+<h1>SQLInject</h1>
+
+<h2>Step1. Create Data</h2>
+@{ 
+    var script = @"<script>alert('hack!!')</script>";
+}
+<h3> @script </h3>
+<form action="/Security/CreateUser" method="post">
+    UserID : <input type="text" name="userId">
+    Password : <input type="password" name="password">
+    <input type="submit" value="送出表單">
+</form>
+
+<h2>Step2. SQL Inject</h2>
+<h3>'; DELETE FROM Users --'</h3>
+<form action="" method="post">
+    請輸入 ID :<input type="text" name="userId">
+    <input type="submit" value="查詢">
+</form>
+
+
